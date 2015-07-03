@@ -2,22 +2,125 @@
 
 <html ng-app="myapp">
   <head>
-    <title>Users</title>
+    <title>Silver Fern Visa Sporadic</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/css/index.css">
     <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png">
     <script src="/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/angular.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/myapp.js" type="text/javascript" charset="utf-8"></script>
   </head>
 
-  <body ng-controller="MainController">
-  	<h1>User Items</h1>
-  	<input type="text" placeholder="Please input some words ..." ng-model="message">
-  	<p>input:{{ message }}</p>
-    <p>{{message + message}}</p>
-    <p ng-bind="message"></p>
+  <body ng-controller="MainController as main">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 list-product">
+          <p>Products</p>
+          <div class="product col-md-4" ng-repeat="product in main.products">
+            <img class="img-circle product-img" ng-src="{{product.image}}">
+            <div class="product-label" ng-click="main.addItem($index, product)">
+              <h4 ><span>{{product.name}}</span></h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 panel">
+          <p>Panel</p>
+          <!-- Query form -->
+          <div class="query">
+            <span class="query-icon">ICON</span>
+            <input type="search">
+          </div>
+          <!-- Items of order -->
+          <div class="order-form">
+            <div class="order-items">
+              <p class="label-warning">Order items</p>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Qty</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="item in main.items">
+                  <tr>
+                    <td>{{item.item.name}}</td>
+                    <td>{{item.qty}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn-warning" ng-click="main.consume()">Consume</button>
+            <button class="btn btn-primary" ng-click="main.charge()">Charge</button>
+          </div>
+          <!-- Records -->
+          <section class="record-form" ng-controller="TabController as tab">
+            <ul class="nav nav-pills">
+              <li ng-class="{active:tab.isTab(1)}"><a ng-click="tab.setTab(1)">Consumption of Day</a></li>
+              <li ng-class="{active:tab.isTab(2)}"><a ng-click="tab.setTab(2)">Charge of Day</a></li>
+              <li ng-class="{active:tab.isTab(3)}"><a ng-click="tab.setTab(3)">Dilivery of Day</a></li>
+            </ul>
+
+            <div ng-show="tab.isTab(1)">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Qty</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="item in main.items">
+                  <tr>
+                    <td>{{item.item.name}}</td>
+                    <td>{{item.qty}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div ng-show="tab.isTab(2)">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Qty</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="item in main.items">
+                  <tr>
+                    <td>{{item}}</td>
+                    <td>{{item.qty}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div ng-show="tab.isTab(3)">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Qty</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="item in main.items">
+                  <tr>
+                    <td>{{item.item}}</td>
+                    <td>{{item.qty}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
